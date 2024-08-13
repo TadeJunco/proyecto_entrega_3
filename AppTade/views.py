@@ -1,60 +1,169 @@
 from django.shortcuts import render
 from .models import Curso
 from AppTade.forms import CursoFormulario, BuscaCursoForm
+from django.contrib.auth.decorators import login_required
+from django.views.generic import ListView
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from .models import Curso, Estudiante, Profesor, Entregable
+from django.urls import reverse_lazy
+from users.models import Imagen
+
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+
 
 def inicio(request):
-    return render(request, "App1/index.html")
+    
+    return render(request, "App1/index.html")# , {"url": imagen})
 
-def cursos(request):
-    return render(request, "App1/cursos.html")
 
-def profesores(request):
-    return render(request, "App1/profesores.html")
 
-def estudiantes(request):
-    return render(request, "App1/estudiantes.html")
+@login_required
+def about(request):
+    return render(request, "App1/about.html")
 
-def entregables(request):
-    return render(request, "App1/entregables.html")
 
-def form_comun(request):
+# VISTAS BASADAS EN CLASES - CURSOS
+class CursoListView(LoginRequiredMixin, ListView):
+    model = Curso
+    template_name = "App1/curso_list.html"
 
-    if request.method == 'POST':
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
 
-        curso =  Curso(nombre=request.POST['curso'],camada=request.POST['camada'])
-        curso.save()
 
-        return render(request, "App1/index.html")
+class CursoDetailView(LoginRequiredMixin, DetailView):
+    model = Curso
+    template_name = "App1/curso_detail.html"
 
-    return render(request,"App1/form_comun.html")
+    # login_url = '/users/login/'
 
-def form_con_api(request):
-    if request.method == "POST":
-        miFormulario = CursoFormulario(request.POST) # Aqui me llega la informacion del html
-        # print(miFormulario)
-        if miFormulario.is_valid():
-            informacion = miFormulario.cleaned_data
-            curso = Curso(nombre=informacion["curso"], camada=informacion["camada"])
-            curso.save()
-            return render(request, "App1/index.html")
-    else:
-        miFormulario = CursoFormulario()
+    # def get_login_url(self):
+    #     return self.login_url
 
-    return render(request, "App1/form_con_api.html", {"miFormulario": miFormulario})
 
-def buscar_form_con_api(request):
-    if request.method == "POST":
-        miFormulario = BuscaCursoForm(request.POST) # Aqui me llega la informacion del html
+class CursoCreateView(LoginRequiredMixin, CreateView):
+    """
+    Esta clase envía por defecto un formulario al archivo html. Envía los campos indicados en la lista "fields" y podemos hacer uso de dicho formulario bajo la key "form".
+    """
 
-        if miFormulario.is_valid():
-            informacion = miFormulario.cleaned_data
-            
-            cursos = Curso.objects.filter(nombre__icontains=informacion["curso"])
+    model = Curso
+    template_name = "App1/curso_create.html"
+    fields = ["nombre", "camada"]
 
-            return render(request, "App1/resultados_buscar_form.html", {"cursos": cursos})
-    else:
-        miFormulario = BuscaCursoForm()
+    # En success_url indicamos la vista que queremos visitar una vez que se genera un curso con éxito. Lo podemos hacer de 2 formas:
+    
+    # Indicando la URL
+    # success_url = "/curso-list/"
+    # Con el reverse_lazy indicamos el nombre de la vista
+    success_url = reverse_lazy("CursoList")
 
-    return render(request, "App1/buscar_form_con_api.html", {"miFormulario": miFormulario})
+
+class CursoUpdateView(LoginRequiredMixin, UpdateView):
+    model = Curso
+    success_url = reverse_lazy("CursoList")
+    fields = ["nombre", "camada"]
+    template_name = "App1/curso_update.html"
+
+
+class CursoDeleteView(LoginRequiredMixin, DeleteView):
+    model = Curso
+    success_url = reverse_lazy("CursoList")
+    template_name = 'App1/curso_confirm_delete.html'
+
+
+# VISTAS BASADAS EN CLASES - ESTUDIANTES
+class EstudianteListView(LoginRequiredMixin, ListView):
+    model = Estudiante
+    template_name = "App1/estudiante_list.html"
+
+
+class EstudianteDetailView(LoginRequiredMixin, DetailView):
+    model = Estudiante
+    template_name = "App1/estudiante_detail.html"
+
+
+class EstudianteCreateView(LoginRequiredMixin, CreateView):
+
+    model = Estudiante
+    template_name = "App1/estudiante_create.html"
+    fields = ["nombre", "apellido", "email"]
+    success_url = reverse_lazy("EstudianteList")
+
+
+class EstudianteUpdateView(LoginRequiredMixin, UpdateView):
+    model = Estudiante
+    success_url = reverse_lazy("EstudianteList")
+    fields = ["nombre", "apellido", "email"]
+    template_name = "App1/estudiante_update.html"
+
+
+class EstudianteDeleteView(LoginRequiredMixin, DeleteView):
+    model = Estudiante
+    success_url = reverse_lazy("EstudianteList")
+    template_name = 'App1/estudiante_confirm_delete.html'
+
+
+# VISTAS BASADAS EN CLASES - PROFESORES
+class ProfesorListView(LoginRequiredMixin, ListView):
+    model = Profesor
+    template_name = "App1/profesor_list.html"
+
+
+class ProfesorDetailView(LoginRequiredMixin, DetailView):
+    model = Profesor
+    template_name = "App1/profesor_detail.html"
+
+
+class ProfesorCreateView(LoginRequiredMixin, CreateView):
+    model = Profesor
+    template_name = "App1/profesor_create.html"
+    fields = ["nombre", "apellido", "email"]
+    success_url = reverse_lazy("ProfesorList")
+
+
+class ProfesorUpdateView(LoginRequiredMixin, UpdateView):
+    model = Profesor
+    success_url = reverse_lazy("ProfesorList")
+    fields = ["nombre", "apellido", "email"]
+    template_name = "App1/profesor_update.html"
+
+
+class ProfesorDeleteView(LoginRequiredMixin, DeleteView):
+    model = Profesor
+    success_url = reverse_lazy("ProfesorList")
+    template_name = 'App1/profesor_confirm_delete.html'
+
+
+# VISTAS BASADAS EN CLASES - ENTREGABLES
+class EntregableListView(LoginRequiredMixin, ListView):
+    model = Entregable
+    template_name = "App1/entregable_list.html"
+
+
+class EntregableDetailView(LoginRequiredMixin, DetailView):
+    model = Entregable
+    template_name = "App1/entregable_detail.html"
+
+
+class EntregableCreateView(LoginRequiredMixin, CreateView):
+    model = Entregable
+    template_name = "App1/entregable_create.html"
+    fields = ["nombre", "fecha_de_entrega", "entregado"]
+    success_url = reverse_lazy("EntregableList")
+
+
+class EntregableUpdateView(LoginRequiredMixin, UpdateView):
+    model = Entregable
+    success_url = reverse_lazy("EntregableList")
+    fields = ["nombre", "fecha_de_entrega", "entregado"]
+    template_name = "App1/entregable_update.html"
+
+
+class EntregableDeleteView(LoginRequiredMixin, DeleteView):
+    model = Entregable
+    success_url = reverse_lazy("EntregableList")
+    template_name = 'App1/entregable_confirm_delete.html'
 
 
