@@ -24,7 +24,7 @@
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
             <div class="container px-5">
-                <a class="navbar-brand" href="#page-top">Tade</a>
+                <a class="navbar-brand" href="#page-top">Tadeo.web</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto">
@@ -37,19 +37,17 @@
                         
                         {# DROPDOWN PARA LA CUENTA DE USUARIO #}
                         {% if request.user.is_authenticated %}
-                            {% if user_avatar %}
-                                <img src="{{user_avatar}}" alt="" style="height: 40px;width: 40px;">
-                            {% endif %}
+                            <img src="{{request.user.imagen.imagen.url}}" alt="" style="height: 50px;width: 50px;">
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                     {{ request.user.username }}
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <li><a class="dropdown-item" href="{% url 'Edit' %}">Editar cuenta</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'EditarPerfil' %}">Editar cuenta</a></li>
                                     <li><a class="dropdown-item" href="{% url 'Logout' %}">Cerrar sesión</a></li>
                                 </ul>
                             </div>
-
+                        
                         {% else %}
 
                             <div class="dropdown">

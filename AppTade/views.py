@@ -52,11 +52,7 @@ class CursoCreateView(LoginRequiredMixin, CreateView):
     template_name = "App1/curso_create.html"
     fields = ["nombre", "camada"]
 
-    # En success_url indicamos la vista que queremos visitar una vez que se genera un curso con éxito. Lo podemos hacer de 2 formas:
     
-    # Indicando la URL
-    # success_url = "/curso-list/"
-    # Con el reverse_lazy indicamos el nombre de la vista
     success_url = reverse_lazy("CursoList")
 
 

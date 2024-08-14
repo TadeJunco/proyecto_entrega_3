@@ -9,12 +9,10 @@
         {% csrf_token %}
 
         <table>
-
             {{ mi_form.as_table }}
-            <input type="submit" value="Actualizar">
-
         </table>
-
+        <a class="btn btn-primary" href="{% url 'CambiarPass' %}">Cambiar contraseña</a>
+        <input type="submit" value="Actualizar">
 
     </form>
 
