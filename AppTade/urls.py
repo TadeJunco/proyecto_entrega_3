@@ -4,7 +4,7 @@ from AppTade import views
 
 urlpatterns = [
     path('', views.inicio, name="Inicio"),
-    path('about/', views.about, name="About")
+    path('about/', views.about, name="About"),
 ]
 
 # Cursos

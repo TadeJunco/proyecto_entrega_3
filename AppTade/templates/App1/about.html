@@ -1,0 +1,26 @@
+{% extends 'App1/base.html' %}
+
+{% load static %}
+
+{% block title %} Acerca de mi {% endblock title %}
+
+{% block main %}
+    <!-- Content section 1-->
+    <section id="scroll">
+        <div class="container px-5">
+            <div class="row gx-5 align-items-center">
+                <div class="col-lg-6 order-lg-2">
+                    <div class="p-5"><img class="img-fluid rounded-circle" src="{% static 'App1/assets/img/LinkedIn2_RYo9f1Z.jpeg' %}" alt="..." /></div>
+                </div>
+                <div class="col-lg-6 order-lg-1">
+                    <div class="p-5">
+                        <h2 class="display-4">Sobre mi :) </h2>
+                        <p>Hola, mi nombre es Tadeo soy un estudiante de tecnicatura en programacion, tengo 21 años. Hice esta "web" para seguir aprendiendo y tratar de poner en practica algunos conocimintos.</p>
+                        <p>tade.junco@gmail.com</p>
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endblock main %}

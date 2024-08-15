@@ -18,7 +18,6 @@ def inicio(request):
     return render(request, "App1/index.html")# , {"url": imagen})
 
 
-
 @login_required
 def about(request):
     return render(request, "App1/about.html")
@@ -163,3 +162,5 @@ class EntregableDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'App1/entregable_confirm_delete.html'
 
 
+def About(request):
+    return render(request, "App1/about.html")

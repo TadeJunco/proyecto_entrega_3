@@ -33,21 +33,23 @@
                         <li class="nav-item"><a class="nav-link text-white" href="{% url 'ProfesorList' %}">Profesores</a></li>
                         <li class="nav-item"><a class="nav-link text-white" href="{% url 'CursoList' %}">Cursos</a></li>
                         <li class="nav-item"><a class="nav-link text-white" href="{% url 'EntregableList' %}">Entregables</a></li>
-                        
+                        <li class="nav-item"><a class="nav-link" href="{% url 'About' %}">Acerca de mí</a></li>
                         
                         {# DROPDOWN PARA LA CUENTA DE USUARIO #}
                         {% if request.user.is_authenticated %}
-                            <img src="{{request.user.imagen.imagen.url}}" alt="" style="height: 50px;width: 50px;">
+                            {% if user_avatar %}
+                                <img src="{{user_avatar}}" alt="" style="height: 40px;width: 40px;">
+                            {% endif %}
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                     {{ request.user.username }}
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <li><a class="dropdown-item" href="{% url 'EditarPerfil' %}">Editar cuenta</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'Edit' %}">Editar cuenta</a></li>
                                     <li><a class="dropdown-item" href="{% url 'Logout' %}">Cerrar sesión</a></li>
                                 </ul>
                             </div>
-                        
+
                         {% else %}
 
                             <div class="dropdown">
@@ -68,8 +70,8 @@
         <header class="masthead text-center text-white">
             <div class="masthead-content">
                 <div class="container px-5">
-                    <h1 class="masthead-heading mb-0">One Page Wonder</h1>
-                    <h2 class="masthead-subheading mb-0">Will Rock Your Socks Off</h2>
+                    <h1 class="masthead-heading mb-0">Aprendiendo con esta web!</h1>
+                    <h2 class="masthead-subheading mb-0">Tadeo</h2>
                     <a class="btn btn-primary btn-xl rounded-pill mt-5" href="#scroll">Learn More</a>
                 </div>
             </div>
