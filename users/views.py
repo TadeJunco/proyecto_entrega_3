@@ -27,7 +27,7 @@ def login_request(request):
         msg_login = "Usuario o contraseña incorrectos"
 
     form = AuthenticationForm()
-    return render(request, "users/login.html", {"form": form, "msg_login": msg_login})
+    return render(request,"users/login.html" ,  {"form": form, "msg_login": msg_login})
 
 # Vista de registro
 def register(request):
@@ -36,8 +36,7 @@ def register(request):
 
         form = UserRegisterForm(request.POST)
         if form.is_valid():
-            # Si los datos ingresados en el form son válidos, con form.save()
-            # creamos un nuevo user usando esos datos
+            
             form.save()
             return render(request,"App1/index.html")
         
